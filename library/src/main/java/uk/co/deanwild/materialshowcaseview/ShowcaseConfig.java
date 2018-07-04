@@ -1,7 +1,6 @@
 package uk.co.deanwild.materialshowcaseview;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 
 import uk.co.deanwild.materialshowcaseview.shape.CircleShape;
 import uk.co.deanwild.materialshowcaseview.shape.Shape;
@@ -10,6 +9,12 @@ import uk.co.deanwild.materialshowcaseview.shape.Shape;
 public class ShowcaseConfig {
 
     public static final String DEFAULT_MASK_COLOUR = "#dd335075";
+    public static final String DEFAULT_DISMISS_BUTTON_COLOR = "#cccccc";
+    public static final String DEFAULT_DISMISS_TEXT_COLOR = "#ffffff";
+    public static final String DEFAULT_CONTENT_TEXT_COLOR = "#ffffff";
+    public static final String DEFAULT_TITLE_TEXT_COLOR = "#ffffff";
+    public static final int DEFAULT_TITLE_TEXT_APPEARANCE = android.R.style.TextAppearance_Material_Title;
+    public static final int DEFAULT_CONTENT_TEXT_APPEARANCE = android.R.style.TextAppearance_Material_Medium;
     public static final long DEFAULT_FADE_TIME = 300;
     public static final long DEFAULT_DELAY = 0;
     public static final Shape DEFAULT_SHAPE = new CircleShape();
@@ -17,10 +22,13 @@ public class ShowcaseConfig {
 
     private long mDelay = DEFAULT_DELAY;
     private int mMaskColour;
-    private Typeface mDismissTextStyle = Typeface.DEFAULT_BOLD;
 
+    private int mTitleTextColor;
     private int mContentTextColor;
     private int mDismissTextColor;
+    private int mDismissButtonColor;
+    private int mTitleTextAppearance;
+    private int mContentTextAppearance;
     private long mFadeDuration = DEFAULT_FADE_TIME;
     private Shape mShape = DEFAULT_SHAPE;
     private int mShapePadding = DEFAULT_SHAPE_PADDING;
@@ -28,8 +36,13 @@ public class ShowcaseConfig {
 
     public ShowcaseConfig() {
         mMaskColour = Color.parseColor(ShowcaseConfig.DEFAULT_MASK_COLOUR);
-        mContentTextColor = Color.parseColor("#ffffff");
-        mDismissTextColor = Color.parseColor("#ffffff");
+        mTitleTextColor = Color.parseColor(DEFAULT_TITLE_TEXT_COLOR);
+        mContentTextColor = Color.parseColor(DEFAULT_CONTENT_TEXT_COLOR);
+        mDismissTextColor = Color.parseColor(DEFAULT_DISMISS_TEXT_COLOR);
+        mDismissButtonColor = Color.parseColor(DEFAULT_DISMISS_BUTTON_COLOR);
+
+        mTitleTextAppearance = DEFAULT_TITLE_TEXT_APPEARANCE;
+        mContentTextAppearance = DEFAULT_CONTENT_TEXT_APPEARANCE;
     }
 
     public long getDelay() {
@@ -48,28 +61,52 @@ public class ShowcaseConfig {
         mMaskColour = maskColor;
     }
 
+    public int getTitleTextColor() {
+        return mTitleTextColor;
+    }
+
     public int getContentTextColor() {
         return mContentTextColor;
     }
 
-    public void setContentTextColor(int mContentTextColor) {
-        this.mContentTextColor = mContentTextColor;
+    public int getDismissButtonColor() {
+        return mDismissButtonColor;
     }
 
     public int getDismissTextColor() {
         return mDismissTextColor;
     }
 
+    public int getTitleTextAppearance() {
+        return mTitleTextAppearance;
+    }
+
+    public int getContentTextAppearance() {
+        return mContentTextAppearance;
+    }
+
+    public void setTitleTextColor(int titleTextColor) {
+        this.mTitleTextColor = titleTextColor;
+    }
+
+    public void setContentTextColor(int contentTextColor) {
+        this.mContentTextColor = contentTextColor;
+    }
+
     public void setDismissTextColor(int dismissTextColor) {
         this.mDismissTextColor = dismissTextColor;
     }
 
-    public Typeface getDismissTextStyle() {
-        return mDismissTextStyle;
+    public void setDismissButtonColor(int dismissButtonColor) {
+        this.mDismissButtonColor = dismissButtonColor;
     }
 
-    public void setDismissTextStyle(Typeface dismissTextStyle) {
-        this.mDismissTextStyle = dismissTextStyle;
+    public void setTitleTextAppearance(int mTitleTextAppearance) {
+        this.mTitleTextAppearance = mTitleTextAppearance;
+    }
+
+    public void setContentTextAppearance(int mContentTextAppearance) {
+        this.mContentTextAppearance = mContentTextAppearance;
     }
 
     public long getFadeDuration() {

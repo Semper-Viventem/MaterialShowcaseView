@@ -3,6 +3,7 @@ package uk.co.deanwild.materialshowcaseview;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,7 +12,6 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -58,6 +60,10 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
     private TextView mTitleTextView;
     private TextView mContentTextView;
     private TextView mDismissButton;
+    private ImageView mStartImageView;
+    private ImageView mEndImageView;
+    private ImageView mTopImageView;
+    private ImageView mBottomImageView;
     private int mGravity;
     private int mContentBottomMargin;
     private int mContentTopMargin;
@@ -122,7 +128,11 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mContentBox = contentView.findViewById(R.id.content_box);
         mTitleTextView = (TextView) contentView.findViewById(R.id.tv_title);
         mContentTextView = (TextView) contentView.findViewById(R.id.tv_content);
-        mDismissButton = (TextView) contentView.findViewById(R.id.tv_dismiss);
+        mDismissButton = (TextView) contentView.findViewById(R.id.button_dismiss);
+        mStartImageView = (ImageView) contentView.findViewById(R.id.im_start);
+        mEndImageView = (ImageView) contentView.findViewById(R.id.im_end);
+        mBottomImageView = (ImageView) contentView.findViewById(R.id.im_bottom);
+        mTopImageView = (ImageView) contentView.findViewById(R.id.im_top);
         mDismissButton.setOnClickListener(this);
     }
 
@@ -146,7 +156,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         final int height = getMeasuredHeight();
 
         // don't bother drawing if there is nothing to draw on
-        if(width <= 0 || height <= 0) return;
+        if (width <= 0 || height <= 0) return;
 
         // build a new canvas if needed i.e first pass or new dimensions
         if (mBitmap == null || mCanvas == null || mOldHeight != height || mOldWidth != width) {
@@ -206,8 +216,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         if (mDismissOnTouch) {
             hide();
         }
-        if(mTargetTouchable && mTarget.getBounds().contains((int)event.getX(), (int)event.getY())){
-            if(mDismissOnTargetTouch){
+        if (mTargetTouchable && mTarget.getBounds().contains((int) event.getX(), (int) event.getY())) {
+            if (mDismissOnTargetTouch) {
                 hide();
             }
             return false;
@@ -218,7 +228,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
     private void notifyOnDisplayed() {
 
-        if(mListeners != null){
+        if (mListeners != null) {
             for (IShowcaseListener listener : mListeners) {
                 listener.onShowcaseDisplayed(this);
             }
@@ -356,7 +366,6 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
     private void setTitleText(CharSequence contentText) {
         if (mTitleTextView != null && !contentText.equals("")) {
-            mContentTextView.setAlpha(0.5F);
             mTitleTextView.setText(contentText);
         }
     }
@@ -370,14 +379,6 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
     private void setDismissText(CharSequence dismissText) {
         if (mDismissButton != null) {
             mDismissButton.setText(dismissText);
-
-            updateDismissButton();
-        }
-    }
-
-    private void setDismissStyle(Typeface dismissStyle) {
-        if (mDismissButton != null) {
-            mDismissButton.setTypeface(dismissStyle);
 
             updateDismissButton();
         }
@@ -425,11 +426,11 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mFadeDurationInMillis = fadeDurationInMillis;
     }
 
-    private void setTargetTouchable(boolean targetTouchable){
+    private void setTargetTouchable(boolean targetTouchable) {
         mTargetTouchable = targetTouchable;
     }
 
-    private void setDismissOnTargetTouch(boolean dismissOnTargetTouch){
+    private void setDismissOnTargetTouch(boolean dismissOnTargetTouch) {
         mDismissOnTargetTouch = dismissOnTargetTouch;
     }
 
@@ -437,9 +438,111 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mUseFadeAnimation = useFadeAnimation;
     }
 
+    private void setTitleTextGravity(int gravity) {
+        mTitleTextView.setGravity(gravity);
+    }
+
+    private void setTitleTextAppearance(int resId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mTitleTextView.setTextAppearance(resId);
+        } else {
+            mTitleTextView.setTextAppearance(getContext(), resId);
+        }
+    }
+
+    private void setContentTextAppearance(int resId) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mContentTextView.setTextAppearance(resId);
+        } else {
+            mContentTextView.setTextAppearance(getContext(), resId);
+        }
+    }
+
+    private void setContentTextGravity(int gravity) {
+        mContentTextView.setGravity(gravity);
+    }
+
+    private void setDismissButtonGravity(int gravity) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mDismissButton.getLayoutParams();
+        params.gravity = gravity;
+        mDismissButton.setLayoutParams(params);
+    }
+
+    private void setDismissButtonColor(int color) {
+        mDismissButton.setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+
+    private void setEndImage(int drawableResId) {
+        mEndImageView.setImageResource(drawableResId);
+        mEndImageView.setVisibility(VISIBLE);
+    }
+
+    private void setEndImageGravity(int gravity) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mEndImageView.getLayoutParams();
+        params.gravity = gravity;
+        mEndImageView.setLayoutParams(params);
+    }
+
+    private void setEndImageMargins(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mEndImageView.getLayoutParams();
+        params.setMargins(left, top, right, bottom);
+        mEndImageView.setLayoutParams(params);
+    }
+
+    private void setStartImage(int drawableResId) {
+        mStartImageView.setImageResource(drawableResId);
+        mStartImageView.setVisibility(VISIBLE);
+    }
+
+    private void setStartImageGravity(int gravity) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStartImageView.getLayoutParams();
+        params.gravity = gravity;
+        mStartImageView.setLayoutParams(params);
+    }
+
+    private void setStartImageMargins(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStartImageView.getLayoutParams();
+        params.setMargins(left, top, right, bottom);
+        mStartImageView.setLayoutParams(params);
+    }
+
+    private void setTopImage(int drawableResId) {
+        mTopImageView.setImageResource(drawableResId);
+        mTopImageView.setVisibility(VISIBLE);
+    }
+
+    private void setTopImageGravity(int gravity) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTopImageView.getLayoutParams();
+        params.gravity = gravity;
+        mTopImageView.setLayoutParams(params);
+    }
+
+    private void setTopImageMargins(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTopImageView.getLayoutParams();
+        params.setMargins(left, top, right, bottom);
+        mTopImageView.setLayoutParams(params);
+    }
+
+    private void setBottomImage(int drawableResId) {
+        mBottomImageView.setImageResource(drawableResId);
+        mBottomImageView.setVisibility(VISIBLE);
+    }
+
+    private void setBottomImageGravity(int gravity) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBottomImageView.getLayoutParams();
+        params.gravity = gravity;
+        mBottomImageView.setLayoutParams(params);
+    }
+
+    private void setBottomImageMargins(int left, int top, int right, int bottom) {
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBottomImageView.getLayoutParams();
+        params.setMargins(left, top, right, bottom);
+        mBottomImageView.setLayoutParams(params);
+    }
+
     public void addShowcaseListener(IShowcaseListener showcaseListener) {
 
-        if(mListeners != null)
+        if (mListeners != null)
             mListeners.add(showcaseListener);
     }
 
@@ -470,10 +573,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
     public void setConfig(ShowcaseConfig config) {
         setDelay(config.getDelay());
         setFadeDuration(config.getFadeDuration());
+        setTitleTextAppearance(config.getTitleTextAppearance());
+        setContentTextAppearance(config.getContentTextAppearance());
+        setTitleTextColor(config.getTitleTextColor());
         setContentTextColor(config.getContentTextColor());
         setDismissTextColor(config.getDismissTextColor());
-        setDismissStyle(config.getDismissTextStyle());
-
+        setDismissButtonColor(config.getDismissButtonColor());
         setMaskColour(config.getMaskColor());
         setShape(config.getShape());
         setShapePadding(config.getShapePadding());
@@ -549,11 +654,6 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return this;
         }
 
-        public Builder setDismissStyle(Typeface dismissStyle) {
-            showcaseView.setDismissStyle(dismissStyle);
-            return this;
-        }
-
         /**
          * Set the content text shown on the ShowcaseView.
          */
@@ -626,6 +726,101 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
         public Builder setDismissTextColor(int textColour) {
             showcaseView.setDismissTextColor(textColour);
+            return this;
+        }
+
+        public Builder setTitleTextGravity(int gravity) {
+            showcaseView.setTitleTextGravity(gravity);
+            return this;
+        }
+
+        public Builder setTitleTextAppearance(int resId) {
+            showcaseView.setTitleTextAppearance(resId);
+            return this;
+        }
+
+        public Builder setContentTextGravity(int gravity) {
+            showcaseView.setContentTextGravity(gravity);
+            return this;
+        }
+
+        public Builder setContentTextAppearance(int resId) {
+            showcaseView.setContentTextAppearance(resId);
+            return this;
+        }
+
+        public Builder setDismissButtonGravity(int gravity) {
+            showcaseView.setDismissButtonGravity(gravity);
+            return this;
+        }
+
+        public Builder setDismissButtonColor(int buttonColour) {
+            showcaseView.setDismissButtonColor(buttonColour);
+            return this;
+        }
+
+        public Builder setEndImage(int drawableResId) {
+            showcaseView.setEndImage(drawableResId);
+            return this;
+        }
+
+        public Builder setEndImageGravity(int gravity) {
+            showcaseView.setEndImageGravity(gravity);
+            return this;
+        }
+
+        public Builder setEndImageMargins(int left, int top, int right, int bottom) {
+            showcaseView.setEndImageMargins(left, top, right, bottom);
+            return this;
+        }
+
+        public Builder setStartImage(int drawableResId) {
+            showcaseView.setStartImage(drawableResId);
+            return this;
+        }
+
+        public Builder setStartImageGravity(int gravity) {
+            showcaseView.setStartImageGravity(gravity);
+            return this;
+        }
+
+        public Builder setStartImageMargins(int left, int top, int right, int bottom) {
+            showcaseView.setStartImageMargins(left, top, right, bottom);
+            return this;
+        }
+
+        public Builder setTopImage(int drawableResId) {
+            showcaseView.setTopImage(drawableResId);
+            return this;
+        }
+
+        public Builder setTopImageGravity(int gravity) {
+            showcaseView.setTopImageGravity(gravity);
+            return this;
+        }
+
+        public Builder setTopImageMargins(int left, int top, int right, int bottom) {
+            showcaseView.setTopImageMargins(left, top, right, bottom);
+            return this;
+        }
+
+        public Builder setBottomImage(int drawableResId) {
+            showcaseView.setBottomImage(drawableResId);
+            return this;
+        }
+
+        public Builder setBottomImageGravity(int gravity) {
+            showcaseView.setBottomImageGravity(gravity);
+            return this;
+        }
+
+        public Builder setBottomImageMargins(int left, int top, int right, int bottom) {
+            showcaseView.setBottomImageMargins(left, top, right, bottom);
+            return this;
+        }
+
+        public Builder setConfing(ShowcaseConfig config) {
+            showcaseView.setConfig(config);
             return this;
         }
 
@@ -712,10 +907,9 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
             if (showcaseView.mAnimationFactory == null) {
                 // create our animation factory
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !showcaseView.mUseFadeAnimation) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !showcaseView.mUseFadeAnimation) {
                     showcaseView.setAnimationFactory(new CircularRevealAnimationFactory());
-                }
-                else {
+                } else {
                     showcaseView.setAnimationFactory(new FadeAnimationFactory());
                 }
             }
@@ -869,18 +1063,15 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
     public static int getSoftButtonsBarSizePort(Activity activity) {
         // getRealMetrics is only available with API 17 and +
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            DisplayMetrics metrics = new DisplayMetrics();
-            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            int usableHeight = metrics.heightPixels;
-            activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-            int realHeight = metrics.heightPixels;
-            if (realHeight > usableHeight)
-                return realHeight - usableHeight;
-            else
-                return 0;
-        }
-        return 0;
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int usableHeight = metrics.heightPixels;
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int realHeight = metrics.heightPixels;
+        if (realHeight > usableHeight)
+            return realHeight - usableHeight;
+        else
+            return 0;
     }
 
     private void setRenderOverNavigationBar(boolean mRenderOverNav) {
