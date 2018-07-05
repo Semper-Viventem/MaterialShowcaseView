@@ -8,7 +8,7 @@ import uk.co.deanwild.materialshowcaseview.shape.Shape;
 
 public class ShowcaseConfig {
 
-    public static final String DEFAULT_MASK_COLOUR = "#dd335075";
+    public static final String DEFAULT_MASK_COLOUR = "#DE000000";
     public static final String DEFAULT_DISMISS_BUTTON_COLOR = "#cccccc";
     public static final String DEFAULT_DISMISS_TEXT_COLOR = "#ffffff";
     public static final String DEFAULT_CONTENT_TEXT_COLOR = "#ffffff";
@@ -40,7 +40,6 @@ public class ShowcaseConfig {
         mContentTextColor = Color.parseColor(DEFAULT_CONTENT_TEXT_COLOR);
         mDismissTextColor = Color.parseColor(DEFAULT_DISMISS_TEXT_COLOR);
         mDismissButtonColor = Color.parseColor(DEFAULT_DISMISS_BUTTON_COLOR);
-
         mTitleTextAppearance = DEFAULT_TITLE_TEXT_APPEARANCE;
         mContentTextAppearance = DEFAULT_CONTENT_TEXT_APPEARANCE;
     }
@@ -55,10 +54,6 @@ public class ShowcaseConfig {
 
     public int getMaskColor() {
         return mMaskColour;
-    }
-
-    public void setMaskColor(int maskColor) {
-        mMaskColour = maskColor;
     }
 
     public int getTitleTextColor() {
@@ -83,6 +78,10 @@ public class ShowcaseConfig {
 
     public int getContentTextAppearance() {
         return mContentTextAppearance;
+    }
+
+    public void setMaskColour(int maskColour) {
+        this.mMaskColour = maskColour;
     }
 
     public void setTitleTextColor(int titleTextColor) {
