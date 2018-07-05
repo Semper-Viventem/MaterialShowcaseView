@@ -29,28 +29,6 @@ public class MaterialShowcaseSequence implements IDetachedListener {
         this.singleUse(sequenceID);
     }
 
-    public MaterialShowcaseSequence addSequenceItem(View targetView, String content, String dismissText) {
-        addSequenceItem(targetView, "", content, dismissText);
-        return this;
-    }
-
-    public MaterialShowcaseSequence addSequenceItem(View targetView, String title, String content, String dismissText) {
-
-        MaterialShowcaseView sequenceItem = new MaterialShowcaseView.Builder(mActivity)
-                .setTarget(targetView)
-                .setTitleText(title)
-                .setDismissText(dismissText)
-                .setContentText(content)
-                .build();
-
-        if (mConfig != null) {
-            sequenceItem.setConfig(mConfig);
-        }
-
-        mShowcaseQueue.add(sequenceItem);
-        return this;
-    }
-
     public MaterialShowcaseSequence addSequenceItem(MaterialShowcaseView sequenceItem) {
         mShowcaseQueue.add(sequenceItem);
         return this;
