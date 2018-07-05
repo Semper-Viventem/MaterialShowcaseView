@@ -9,7 +9,11 @@ import uk.co.deanwild.materialshowcaseview.target.Target;
 
 public class RectangleShape implements Shape {
 
-    private boolean fullWidth = false;
+    public static final int DEFAULT_CORNERS_RADIUS = 0;
+    public static final boolean DEFAULT_FULL_WIDTH = false;
+
+    private boolean fullWidth = DEFAULT_FULL_WIDTH;
+    private int cornersRadius = DEFAULT_CORNERS_RADIUS;
 
     private int width = 0;
     private int height = 0;
@@ -24,11 +28,20 @@ public class RectangleShape implements Shape {
     }
 
     public RectangleShape(Rect bounds) {
-        this(bounds, false);
+        this(bounds, DEFAULT_CORNERS_RADIUS, DEFAULT_FULL_WIDTH);
+    }
+
+    public RectangleShape(Rect bounds, int cornersRadius) {
+        this(bounds, cornersRadius, DEFAULT_FULL_WIDTH);
     }
 
     public RectangleShape(Rect bounds, boolean fullWidth) {
+        this(bounds, DEFAULT_CORNERS_RADIUS, fullWidth);
+    }
+
+    public RectangleShape(Rect bounds, int cornersRadius, boolean fullWidth) {
         this.fullWidth = fullWidth;
+        this.cornersRadius = cornersRadius;
         height = bounds.height();
         if (fullWidth)
             width = Integer.MAX_VALUE;
@@ -45,17 +58,19 @@ public class RectangleShape implements Shape {
     }
 
     private void init() {
-        rect = new Rect(- width / 2, - height / 2, width / 2, height / 2);
+        rect = new Rect(-width / 2, -height / 2, width / 2, height / 2);
     }
 
     @Override
     public void draw(Canvas canvas, Paint paint, int x, int y, int padding) {
         if (!rect.isEmpty()) {
-            canvas.drawRect(
+            canvas.drawRoundRect(
                     rect.left + x - padding,
                     rect.top + y - padding,
                     rect.right + x + padding,
                     rect.bottom + y + padding,
+                    cornersRadius,
+                    cornersRadius,
                     paint
             );
         }

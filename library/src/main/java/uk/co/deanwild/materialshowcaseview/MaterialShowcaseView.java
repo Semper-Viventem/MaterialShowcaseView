@@ -633,7 +633,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         private static final int RECTANGLE_SHAPE = 1;
         private static final int NO_SHAPE = 2;
 
-        private boolean fullWidth = false;
+        private boolean fullWidth = RectangleShape.DEFAULT_FULL_WIDTH;
+        private int cornersRadius = RectangleShape.DEFAULT_CORNERS_RADIUS;
         private int shapeType = CIRCLE_SHAPE;
 
         final MaterialShowcaseView showcaseView;
@@ -877,11 +878,22 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         }
 
         public Builder withRectangleShape() {
-            return withRectangleShape(false);
+            return withRectangleShape(RectangleShape.DEFAULT_FULL_WIDTH);
         }
 
         public Builder withRectangleShape(boolean fullWidth) {
+            withRectangleShape(RectangleShape.DEFAULT_CORNERS_RADIUS, fullWidth);
+            return this;
+        }
+
+        public Builder withRectangleShape(int cornersRadius) {
+            withRectangleShape(cornersRadius, RectangleShape.DEFAULT_FULL_WIDTH);
+            return this;
+        }
+
+        public Builder withRectangleShape(int cornersRadius, boolean fullWidth) {
             this.shapeType = RECTANGLE_SHAPE;
+            this.cornersRadius = cornersRadius;
             this.fullWidth = fullWidth;
             return this;
         }
@@ -901,7 +913,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             if (showcaseView.mShape == null) {
                 switch (shapeType) {
                     case RECTANGLE_SHAPE: {
-                        showcaseView.setShape(new RectangleShape(showcaseView.mTarget.getBounds(), fullWidth));
+                        showcaseView.setShape(new RectangleShape(showcaseView.mTarget.getBounds(), cornersRadius, fullWidth));
                         break;
                     }
                     case CIRCLE_SHAPE: {
