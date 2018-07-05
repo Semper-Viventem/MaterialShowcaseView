@@ -483,9 +483,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mEndImageView.setLayoutParams(params);
     }
 
-    private void setEndImageMargins(int left, int top, int right, int bottom) {
+    private void setEndImageMargins(int start, int top, int end, int bottom) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mEndImageView.getLayoutParams();
-        params.setMargins(left, top, right, bottom);
+        params.setMarginStart(start);
+        params.topMargin = top;
+        params.setMarginEnd(end);
+        params.bottomMargin = bottom;
         mEndImageView.setLayoutParams(params);
     }
 
@@ -500,9 +503,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mStartImageView.setLayoutParams(params);
     }
 
-    private void setStartImageMargins(int left, int top, int right, int bottom) {
+    private void setStartImageMargins(int start, int top, int end, int bottom) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mStartImageView.getLayoutParams();
-        params.setMargins(left, top, right, bottom);
+        params.setMarginStart(start);
+        params.topMargin = top;
+        params.setMarginEnd(end);
+        params.bottomMargin = bottom;
         mStartImageView.setLayoutParams(params);
     }
 
@@ -517,9 +523,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mTopImageView.setLayoutParams(params);
     }
 
-    private void setTopImageMargins(int left, int top, int right, int bottom) {
+    private void setTopImageMargins(int start, int top, int end, int bottom) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTopImageView.getLayoutParams();
-        params.setMargins(left, top, right, bottom);
+        params.setMarginStart(start);
+        params.topMargin = top;
+        params.setMarginEnd(end);
+        params.bottomMargin = bottom;
         mTopImageView.setLayoutParams(params);
     }
 
@@ -534,9 +543,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mBottomImageView.setLayoutParams(params);
     }
 
-    private void setBottomImageMargins(int left, int top, int right, int bottom) {
+    private void setBottomImageMargins(int start, int top, int end, int bottom) {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mBottomImageView.getLayoutParams();
-        params.setMargins(left, top, right, bottom);
+        params.setMarginStart(start);
+        params.topMargin = top;
+        params.setMarginEnd(end);
+        params.bottomMargin = bottom;
         mBottomImageView.setLayoutParams(params);
     }
 
@@ -686,20 +698,20 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
         /**
          * Set whether or not the target view can be touched while the showcase is visible.
-         *
+         * <p>
          * False by default.
          */
-        public Builder setTargetTouchable(boolean targetTouchable){
+        public Builder setTargetTouchable(boolean targetTouchable) {
             showcaseView.setTargetTouchable(targetTouchable);
             return this;
         }
 
         /**
          * Set whether or not the showcase should dismiss when the target is touched.
-         *
+         * <p>
          * True by default.
          */
-        public Builder setDismissOnTargetTouch(boolean dismissOnTargetTouch){
+        public Builder setDismissOnTargetTouch(boolean dismissOnTargetTouch) {
             showcaseView.setDismissOnTargetTouch(dismissOnTargetTouch);
             return this;
         }
@@ -769,8 +781,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return this;
         }
 
-        public Builder setEndImageMargins(int left, int top, int right, int bottom) {
-            showcaseView.setEndImageMargins(left, top, right, bottom);
+        public Builder setEndImageMargins(int start, int top, int end, int bottom) {
+            showcaseView.setEndImageMargins(start, top, end, bottom);
             return this;
         }
 
@@ -784,8 +796,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return this;
         }
 
-        public Builder setStartImageMargins(int left, int top, int right, int bottom) {
-            showcaseView.setStartImageMargins(left, top, right, bottom);
+        public Builder setStartImageMargins(int start, int top, int end, int bottom) {
+            showcaseView.setStartImageMargins(start, top, end, bottom);
             return this;
         }
 
@@ -799,8 +811,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return this;
         }
 
-        public Builder setTopImageMargins(int left, int top, int right, int bottom) {
-            showcaseView.setTopImageMargins(left, top, right, bottom);
+        public Builder setTopImageMargins(int start, int top, int end, int bottom) {
+            showcaseView.setTopImageMargins(start, top, end, bottom);
             return this;
         }
 
@@ -814,8 +826,8 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return this;
         }
 
-        public Builder setBottomImageMargins(int left, int top, int right, int bottom) {
-            showcaseView.setBottomImageMargins(left, top, right, bottom);
+        public Builder setBottomImageMargins(int start, int top, int end, int bottom) {
+            showcaseView.setBottomImageMargins(start, top, end, bottom);
             return this;
         }
 
