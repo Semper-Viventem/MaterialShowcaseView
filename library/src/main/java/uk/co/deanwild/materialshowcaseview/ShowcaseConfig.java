@@ -17,7 +17,6 @@ public class ShowcaseConfig {
     public static final int DEFAULT_CONTENT_TEXT_APPEARANCE = android.R.style.TextAppearance_Material_Medium;
     public static final long DEFAULT_FADE_TIME = 300;
     public static final long DEFAULT_DELAY = 0;
-    public static final Shape DEFAULT_SHAPE = new CircleShape();
     public static final int DEFAULT_SHAPE_PADDING = 10;
 
     private long mDelay = DEFAULT_DELAY;
@@ -30,7 +29,7 @@ public class ShowcaseConfig {
     private int mTitleTextAppearance;
     private int mContentTextAppearance;
     private long mFadeDuration = DEFAULT_FADE_TIME;
-    private Shape mShape = DEFAULT_SHAPE;
+    private Shape mShape;
     private int mShapePadding = DEFAULT_SHAPE_PADDING;
     private boolean renderOverNav = false;
 
