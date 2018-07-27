@@ -2,6 +2,8 @@ package uk.co.deanwild.materialshowcaseview;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -639,12 +641,12 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
         final MaterialShowcaseView showcaseView;
 
-        private final Activity activity;
+        private final Context context;
 
-        public Builder(Activity activity) {
-            this.activity = activity;
+        public Builder(Context context) {
+            this.context = context;
 
-            showcaseView = new MaterialShowcaseView(activity);
+            showcaseView = new MaterialShowcaseView(context);
         }
 
         /**
@@ -659,7 +661,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
          * Set the title text shown on the ShowcaseView.
          */
         public Builder setDismissText(int resId) {
-            return setDismissText(activity.getString(resId));
+            return setDismissText(context.getString(resId));
         }
 
         public Builder setDismissText(CharSequence dismissText) {
@@ -671,7 +673,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
          * Set the content text shown on the ShowcaseView.
          */
         public Builder setContentText(int resId) {
-            return setContentText(activity.getString(resId));
+            return setContentText(context.getString(resId));
         }
 
         /**
@@ -686,7 +688,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
          * Set the title text shown on the ShowcaseView.
          */
         public Builder setTitleText(int resId) {
-            return setTitleText(activity.getString(resId));
+            return setTitleText(context.getString(resId));
         }
 
         /**
@@ -941,11 +943,25 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             return showcaseView;
         }
 
-        public MaterialShowcaseView show() {
+        public MaterialShowcaseView show(Activity activity) {
             build().show(activity);
             return showcaseView;
         }
 
+        public MaterialShowcaseView show(Dialog dialog) {
+            build().show(dialog);
+            return showcaseView;
+        }
+
+        public MaterialShowcaseView show(DialogFragment dialogFragment) {
+            build().show(dialogFragment);
+            return showcaseView;
+        }
+
+        public MaterialShowcaseView show(android.support.v4.app.DialogFragment dialogFragment) {
+            build().show(dialogFragment);
+            return showcaseView;
+        }
     }
 
     private void singleUse(String showcaseID) {
@@ -987,7 +1003,22 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
      * @return
      */
     public boolean show(final Activity activity) {
+        return showInternal((ViewGroup) activity.getWindow().getDecorView());
+    }
 
+    public boolean show(final Dialog dialog) {
+        return showInternal((ViewGroup) dialog.getWindow().getDecorView());
+    }
+
+    public boolean show(final DialogFragment dialogFragment) {
+        return showInternal((ViewGroup) dialogFragment.getDialog().getWindow().getDecorView());
+    }
+
+    public boolean show(final android.support.v4.app.DialogFragment dialogFragment) {
+        return showInternal((ViewGroup) dialogFragment.getDialog().getWindow().getDecorView());
+    }
+
+    private boolean showInternal(ViewGroup decorView) {
         /**
          * if we're in single use mode and have already shot our bolt then do nothing
          */
@@ -999,7 +1030,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
             }
         }
 
-        ((ViewGroup) activity.getWindow().getDecorView()).addView(this);
+        decorView.addView(this);
 
         setShouldRender(true);
 
