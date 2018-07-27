@@ -73,7 +73,7 @@ public class SequenceExample extends AppCompatActivity implements View.OnClickLi
         sequence.setConfig(config);
 
         sequence.addSequenceItem(
-                new MaterialShowcaseView.Builder(this)
+                new MaterialShowcaseView.Builder(getApplicationContext())
                         .setConfing(config)
                         .setTarget(mButtonTwo)
                         .setDismissText("GOT IT")
@@ -83,7 +83,7 @@ public class SequenceExample extends AppCompatActivity implements View.OnClickLi
         );
 
         sequence.addSequenceItem(
-                new MaterialShowcaseView.Builder(this)
+                new MaterialShowcaseView.Builder(getApplicationContext())
                         .setConfing(config)
                         .setTarget(mButtonThree)
                         .setDismissText("GOT IT")
