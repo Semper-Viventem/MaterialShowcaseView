@@ -69,6 +69,6 @@ public class SimpleSingleExample extends AppCompatActivity implements View.OnCli
                 .setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
                 .singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
 //                .useFadeAnimation() // remove comment if you want to use fade animations for Lollipop & up
-                .show();
+                .show(this);
     }
 }
